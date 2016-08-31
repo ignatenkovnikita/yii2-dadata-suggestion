@@ -23,7 +23,7 @@ class DadataFactory
             return false;
         }
 
-        $model = new Dadata();
+        $model = new DadataModel();
         $model->city = $data['city'];
         $model->cityWithType = $data['city_with_type'];
         $model->block = $data['block'];

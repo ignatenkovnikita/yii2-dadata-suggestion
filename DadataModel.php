@@ -90,5 +90,6 @@ class DadataModel extends Model
 
         return $model;
     }
+    
 
 }

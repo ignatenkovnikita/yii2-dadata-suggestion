@@ -103,6 +103,11 @@ class Client extends Component
         return false;
     }
 
+    public function getLocationUser(){
+        $ip = \Yii::$app->request->userIP;
+        return $this->getLocationByIp($ip);
+    }
+
     
 
 }
