@@ -10,12 +10,27 @@ namespace ignatenkovnikita\dadata;
 
 
 use Yii;
+use yii\web\Response;
 
 trait Addresses
 {
     public function actionGetaddress($q)
     {
         Yii::$app->response->format = 'json';
+        $address = Yii::$app->dadata->get_address($q);
+        if (count($address->suggestions)) {
+            return
+                array_map(function ($suggestion) {
+                    return ['id' => json_encode($suggestion->data), 'value' => $suggestion->value];
+                }, $address->suggestions)
+            ;
+        } else {
+            return $this->_noResults();
+        }
+    }
+
+    public function actionGetFullAddress($q){
+        Yii::$app->response->format = Response::FORMAT_JSON;
         $address = Yii::$app->dadata->get_address($q);
         if (count($address->suggestions)) {
             return [
