@@ -74,6 +74,39 @@ trait Addresses
         }
     }
 
+    public function actionGetCityOrSettlement($q = null)
+    {
+        Yii::$app->response->format = 'json';
+
+        if (empty($q)) {
+            return $this->_noResults();
+        }
+
+        $address = Yii::$app->dadata->getCityOrSettlement($q);
+
+        if (count($address->suggestions)) {
+            $filtered = array_filter($address->suggestions, function($suggestion) {
+                if ($suggestion->data->street == null) {
+                    return true;
+                } else {
+                    return false;
+                }
+            });
+
+            $results = [];
+
+            foreach ($filtered as $suggestion) {
+                $results[] = ['id' => json_encode($suggestion->data), 'text' => $suggestion->value];
+            }
+
+            return [
+                'results' => $results,
+            ];
+        } else {
+            return $this->_noResults();
+        }
+    }
+
     private function _noResults() {
         return ['results' => [['id' => null, 'text' => 'Нет похожих результатов']]];
     }

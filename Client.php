@@ -64,6 +64,16 @@ class Client extends Component
         return $this->send_request('/suggestions/api/4_1/rs/suggest/address', self::POST, $params);
     }
 
+    public function getCityOrSettlement($query)
+    {
+        $params = [
+            'query' => $query,
+            'from_bound' => ['value' => 'city'],
+            'to_bound' => ['value' => 'settlement']
+        ];
+        return $this->send_request('/suggestions/api/4_1/rs/suggest/address', self::POST, $params);
+    }
+
     public function get_address($address)
     {
         return $this->send_request('/suggestions/api/4_1/rs/suggest/address', self::POST, ['query' => $address]);
